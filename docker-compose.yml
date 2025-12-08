@@ -9,14 +9,14 @@ services:
     working_dir: /usr/src/app
     command: python run.py
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - db
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
 
   db:
-    image: postgres:15
+    image: postgis/postgis:15-3.4
     container_name: PioMa_db
     restart: always
     environment:
