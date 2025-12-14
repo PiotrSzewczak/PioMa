@@ -16,3 +16,7 @@ for idx, row in addresses_df.iterrows():
     else:
         addresses_df.at[idx, 'latitude'] = None
         addresses_df.at[idx, 'longitude'] = None
+
+    df = pd.read_csv('addresses.csv', sep=';')
+    print(df)
+    input("Press Enter to close")
