@@ -1,22 +1,18 @@
 import pandas as pd
-from geopy.geocoders import Nominatim
-
-geolocator = Nominatim(user_agent="myGeocoder")
+from lib.geocode import geocode_addresses
+from lib.db import Database
+from config.config import get_database
+from dotenv import load_dotenv
 
 addresses_df = pd.read_csv('addresses.csv', sep=';')
 
-for idx, row in addresses_df.iterrows():
-    address = row['Concat']
-    location = geolocator.geocode(address, timeout=25)
+# jedno wywołanie geokodowania
+addresses_df = geocode_addresses(addresses_df)
 
-    print(location.latitude, location.longitude)  # For debugging purposes
-    if location:
-        addresses_df.at[idx, 'latitude'] = location.latitude
-        addresses_df.at[idx, 'longitude'] = location.longitude
-    else:
-        addresses_df.at[idx, 'latitude'] = None
-        addresses_df.at[idx, 'longitude'] = None
+print(addresses_df)
 
-    df = pd.read_csv('addresses.csv', sep=';')
-    print(df)
-    input("Press Enter to close")
+# wrzucenie do bazy
+db = get_database()
+db.insert_dataframe('pioma_proj.apartments_geocoded', addresses_df)
+
+input("Press Enter to close")

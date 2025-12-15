@@ -1,16 +1,15 @@
 import os
 from dotenv import load_dotenv
-
 from lib.db import Database
 
 load_dotenv()
 
 def get_database():
-    db_host = os.getenv("POSTGRES_HOST", "localhost")
-    db_port = int(os.getenv("POSTGRES_PORT", 5432))
-    db_name = os.getenv("POSTGRES_DB", "piomadb")
-    db_user = os.getenv("POSTGRES_USER", "piomauser")
-    db_password = os.getenv("POSTGRES_PASSWORD", "superhaslo123")
+    db_host = os.getenv("POSTGRES_HOST")
+    db_port = int(os.getenv("POSTGRES_PORT"))
+    db_name = os.getenv("POSTGRES_DB")
+    db_user = os.getenv("POSTGRES_USER")
+    db_password = os.getenv("POSTGRES_PASSWORD")
 
     return Database(
         db_host=db_host,
