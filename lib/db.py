@@ -45,7 +45,7 @@ class Database:
         conn = self.connect()
         cursor = conn.cursor()
         try:
-            columns = list(df.columns)
+            columns = [f'"{col}"' for col in df.columns]
             values = [tuple(x) for x in df.to_numpy()]
             insert_query = f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES %s"
             psycopg2.extras.execute_values(cursor, insert_query, values)

@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 addresses_df = pd.read_csv('addresses.csv', sep=';')
 
+
 # jedno wywołanie geokodowania
 addresses_df = geocode_addresses(addresses_df)
 
