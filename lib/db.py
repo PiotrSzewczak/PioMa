@@ -2,19 +2,20 @@ import psycopg2
 import psycopg2.extras
 import pandas as pd
 
+
 class Database:
     def __init__(self, db_host, db_port, db_name, db_user, db_password):
         self.connection_params = {
-                    'host': db_host,
-                    'port': db_port,
-                    'database': db_name,
-                    'user': db_user,
-                    'password': db_password
-                }
+            "host": db_host,
+            "port": db_port,
+            "database": db_name,
+            "user": db_user,
+            "password": db_password,
+        }
 
     def connect(self):
         return psycopg2.connect(**self.connection_params)
-    
+
     def _fetch_raw(self, table_name: str):
         query = f"SELECT * FROM {table_name};"
         try:
@@ -39,7 +40,6 @@ class Database:
             return df
         else:
             return pd.DataFrame()
-        
 
     def insert_dataframe(self, table_name: str, df: pd.DataFrame):
         conn = self.connect()
@@ -53,5 +53,3 @@ class Database:
         finally:
             cursor.close()
             conn.close()
-        
-
