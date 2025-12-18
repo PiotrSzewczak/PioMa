@@ -2,6 +2,7 @@ import pandas as pd
 from lib.geocode import geocode_addresses
 from lib.db import Database
 from config.config import get_database
+from search import search_apartments
 from dotenv import load_dotenv
 
 addresses_df = pd.read_csv('addresses.csv', sep=';')
@@ -21,10 +22,12 @@ addresses_df = addresses_df.rename(columns={
 # podgląd wyników
 #
 print(addresses_df)
-
-# wrzucenie do bazy
 db = get_database()
-db.insert_dataframe('pioma_proj.apartments', addresses_df)
+print(search_apartments(db, "Nowy Świat 21 Warszawa"))
+
+
+
+
 
 
 

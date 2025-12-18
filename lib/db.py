@@ -53,4 +53,4 @@ class Database:
         finally:
             cursor.close()
             conn.close()
-            print("Działa to")
+
