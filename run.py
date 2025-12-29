@@ -4,6 +4,7 @@ from lib.db import Database
 from config.config import get_database
 from search import search_apartments
 from dotenv import load_dotenv
+from dynamic_search import dynamic_search
 
 addresses_df = pd.read_csv('addresses.csv', sep=';')
 
@@ -23,7 +24,7 @@ addresses_df = addresses_df.rename(columns={
 #
 print(addresses_df)
 db = get_database()
-print(search_apartments(db, "Nowy Świat 21 Warszawa"))
+print(dynamic_search(db, "warszawa"))
 
 
 
