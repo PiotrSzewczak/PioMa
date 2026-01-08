@@ -5,6 +5,7 @@ from config.config import get_database
 from search import search_apartments
 from dotenv import load_dotenv
 from dynamic_search import dynamic_search
+from lib.typesofdata import Apartment
 
 addresses_df = pd.read_csv('addresses.csv', sep=';')
 
@@ -24,7 +25,16 @@ addresses_df = addresses_df.rename(columns={
 #
 print(addresses_df)
 db = get_database()
-print(dynamic_search(db, "warszawa"))
+apt = Apartment(
+    street="Marszałkowska",
+    house_nr="10",
+    city="Warszawa"
+)
+
+#print(dynamic_search(db, "warszawa"))
+print(db.exists("pioma_proj.apartments", **apt))
+print(db.fetch_as_dataframe("pioma_proj.apartments"))
+print(geocode_addresses(apt))
 
 
 

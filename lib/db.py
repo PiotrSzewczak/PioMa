@@ -54,3 +54,30 @@ class Database:
             cursor.close()
             conn.close()
 
+    def exists(self, table: str, **filters):
+        conn = self.connect()
+        cursor = conn.cursor()
+
+        try:
+            conditions = []
+            values = []
+
+            for key, value in filters.items():
+                conditions.append(f"{key} = %s")
+                values.append(value)
+
+            where_clause = " AND ".join(conditions)
+
+            query = f"SELECT 1 FROM {table} WHERE {where_clause} LIMIT 1"
+            cursor.execute(query, values)
+
+            return cursor.fetchone() is not None
+        finally:
+            cursor.close()
+            conn.close()
+
+            # Aktualizacja danych z uruchomieniem skryptu na geokoding ++++
+                
+            
+
+

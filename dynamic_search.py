@@ -61,3 +61,13 @@ def dynamic_search(db: Database, searched_value: str) -> pd.DataFrame:
     finally:
         cursor.close()
         conn.close()
+
+def insert_data(db: Database, table_name, df):
+    conn = db.connect()
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        if db.exists(table_name,df) == False:
+            db.insert_dataframe(table_name, df)
+    finally:
+        cursor.close()
+        conn.close()
