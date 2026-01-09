@@ -1,21 +1,25 @@
 import pandas as pd
 from geopy.geocoders import Nominatim
 
-def geocode_addresses(input_csv: str) -> pd.DataFrame:
-    geolocator = Nominatim(user_agent="myGeocoder")
-    
-    input_csv['latitude'] = None
-    input_csv['longitude'] = None
 
-    for idx, row in input_csv.iterrows():
-        address = row['Concat']
-        location = geolocator.geocode(address, timeout=25)
+class Geocoder:
+    """
+    A simple geocoder class that uses Nominatim to convert addresses into geographic coordinates.
+    """
 
+    def __init__(self):
+        self.geolocator = Nominatim(user_agent="myGeocoder")
+
+    def geocode_address(self, address: str):
+        """
+        Geocode the given address string into latitude and longitude.
+        Args:
+            address: The address string to geocode.
+        Returns:
+            A tuple of (latitude, longitude) if found, otherwise (None, None).
+        """
+        location = self.geolocator.geocode(address, timeout=10)
         if location:
-            input_csv.at[idx, 'latitude'] = location.latitude
-            input_csv.at[idx, 'longitude'] = location.longitude
+            return location.latitude, location.longitude
         else:
-            input_csv.at[idx, 'latitude'] = None
-            input_csv.at[idx, 'longitude'] = None
-
-    return input_csv
+            return None, None

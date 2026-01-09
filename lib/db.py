@@ -54,6 +54,26 @@ class Database:
             cursor.close()
             conn.close()
 
+    def is_apartment_exist(self, apartment_id: str) -> bool:
+        """
+        Check if an apartment with the given apartment_id exists in the database.
+        Args:
+            apartment_id: The unique identifier of the apartment.
+        Returns:
+            True if the apartment exists, False otherwise.
+        """
+        conn = self.connect()
+        cursor = conn.cursor()
+        try:
+            query = (
+                "SELECT 1 FROM pioma_proj.apartments WHERE apartment_id = %s LIMIT 1;"
+            )
+            cursor.execute(query, (apartment_id,))
+            return cursor.fetchone() is not None
+        finally:
+            cursor.close()
+            conn.close()
+
     def exists(self, table: str, **filters):
         conn = self.connect()
         cursor = conn.cursor()
@@ -77,7 +97,3 @@ class Database:
             conn.close()
 
             # Aktualizacja danych z uruchomieniem skryptu na geokoding ++++
-                
-            
-
-
